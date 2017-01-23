@@ -4,9 +4,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -21,11 +18,6 @@ public class Person extends AbstractEntity {
 	
 	private static final long serialVersionUID = 6757754030293161155L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="PERSON_ID")
-	private long id;
-	
 	@NotBlank
 	@Email
 	@Column(name="EMAIL")
@@ -105,16 +97,6 @@ public class Person extends AbstractEntity {
 		setAddress(address);
 	}
 	
-	@Override
-	public void setId(long id) {
-		this.id = id;
-	}
-	
-	@Override
-	public long getId() {
-		return this.id;
-	}
-
 	public String getFirstName() {
 		return firstName;
 	}
@@ -156,24 +138,14 @@ public class Person extends AbstractEntity {
 	}
 	
 	@Override
-	public void copyDataFromEntity(AbstractEntity populatedEntity) {
-		Person populaterPerson = (Person) populatedEntity;
-		setId(populaterPerson.getId());
-		setEmail(populaterPerson.getEmail());
-		setFirstName(populaterPerson.getFirstName());
-		setLastName(populaterPerson.getLastName());
-		setPhoneNr(populaterPerson.getPhoneNr());
-		setAddress(populaterPerson.getAddress());
-	}
-	
-	@Override
 	public String toString() {
 		return new StringBuilder()
-			.append("First name=").append(this.firstName).append('\n')
-			.append("Last name=").append(this.lastName).append('\n')
-			.append("Email=").append(this.email).append('\n')
-			.append("Phone=").append(this.phoneNr).append('\n')
-			.toString();
+			.append(super.toString())
+			.append("First name=").append(this.firstName).append(NEW_LINE)
+			.append("Last name=").append(this.lastName).append(NEW_LINE)
+			.append("Email=").append(this.email).append(NEW_LINE)
+			.append("Phone=").append(this.phoneNr).append(NEW_LINE)
+		.toString();
 	}
 	
 	@Override
@@ -182,10 +154,22 @@ public class Person extends AbstractEntity {
 			getAddress().setPerson(this);
 		}
 	}
+	
+	@Override
+	public void copyDataFromEntity(AbstractEntity populatedEntity) {
+		Person populaterPerson = (Person) populatedEntity;
+		setId(populaterPerson.getId());
+		setEmail(populaterPerson.getEmail());
+		setFirstName(populaterPerson.getFirstName());
+		setLastName(populaterPerson.getLastName());
+		setPhoneNr(populaterPerson.getPhoneNr());
+		super.copyDataFromEntity(populaterPerson);
+	}
 
 	@Override
 	public void copyReferencesFromEntity(AbstractEntity populatedEntity) {
-		// TODO Auto-generated method stub
+		Person populaterPerson = (Person) populatedEntity;
+		setAddress(populaterPerson.getAddress());
 		
 	}
 

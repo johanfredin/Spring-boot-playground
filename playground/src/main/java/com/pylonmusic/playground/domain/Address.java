@@ -2,9 +2,6 @@ package com.pylonmusic.playground.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -20,11 +17,6 @@ public class Address extends AbstractEntity {
 	
 	private static final long serialVersionUID = 2582703777627336786L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name="ADDRESS_ID")
-	private long id;
-	
 	@NotBlank
 	@Column(name="STREET")
 	private String street;
@@ -91,16 +83,6 @@ public class Address extends AbstractEntity {
 		setCountry(country);
 	}
 	
-	@Override
-	public void setId(long id) {
-		this.id = id;
-	}
-	
-	@Override
-	public long getId() {
-		return this.id;
-	}
-
 	public String getStreet() {
 		return street;
 	}
@@ -151,16 +133,14 @@ public class Address extends AbstractEntity {
 	
 	@Override
 	public String toString() {
-		char newLine = '\n';
 		return new StringBuilder().
-			append("ADDRESS").append(newLine).
-			append("=======").append(newLine).
-			append("Address Id=").append(this.id).append(newLine).
-			append("Street=").append(this.street).append(newLine).
-			append("Zip Code=").append(this.zipCode).append(newLine).
-			append("State/Region=").append(this.stateOrRegion).append(newLine).
-			append("Country=").append(this.country).append(newLine).
-			toString();
+			append(super.toString()).
+			append("Address Id=").append(this.id).append(NEW_LINE).
+			append("Street=").append(this.street).append(NEW_LINE).
+			append("Zip Code=").append(this.zipCode).append(NEW_LINE).
+			append("State/Region=").append(this.stateOrRegion).append(NEW_LINE).
+			append("Country=").append(this.country).append(NEW_LINE).
+		toString();
 	}
 	
 	@Override
@@ -179,13 +159,13 @@ public class Address extends AbstractEntity {
 		setStateOrRegion(populatedAddres.getStateOrRegion());
 		setStreet(populatedAddres.getStreet());
 		setZipCode(populatedAddres.getZipCode());
-		setPerson(populatedAddres.getPerson());
+		super.copyDataFromEntity(populatedAddres);
 	}
 
 	@Override
 	public void copyReferencesFromEntity(AbstractEntity populatedEntity) {
-		// TODO Auto-generated method stub
-		
+		Address populatedAddres = (Address) populatedEntity;
+		setPerson(populatedAddres.getPerson());
 	}
 
 

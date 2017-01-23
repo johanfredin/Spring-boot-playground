@@ -5,6 +5,9 @@ import java.io.Serializable;
 import javax.persistence.Access;
 import javax.persistence.AccessType;
 import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
@@ -31,7 +34,11 @@ public abstract class AbstractEntity implements Serializable {
 	 */
 	private static final long serialVersionUID = -6256322936983908489L;
 
-	abstract long getId();
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Access(AccessType.FIELD)
+	@Column(name="ENTITY_ID")
+	protected long id;
 	
 	@Length(max=Constants.LENGTH_SHORT_FIELD)
 	@Pattern(regexp = Constants.REGEX_DATE_TIME_PATTERN)
@@ -60,7 +67,14 @@ public abstract class AbstractEntity implements Serializable {
 	 * Set the id of the entity
 	 * @param id
 	 */
-	public abstract void setId(long id);
+	public void setId(long id) {
+		this.id = id;
+	}
+	
+	
+	public long getId() {
+		return this.id;
+	}
 	
 	/**
 	 * Intended to be used for copying the fields from the populatedEntity
