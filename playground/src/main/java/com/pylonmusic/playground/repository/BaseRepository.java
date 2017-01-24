@@ -2,8 +2,6 @@ package com.pylonmusic.playground.repository;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
@@ -17,7 +15,7 @@ public interface BaseRepository<T extends AbstractEntity> extends JpaRepository<
 
 	int DEFAULT_MAX_RESULTS = 10;
 	
-	@Query("select count (#{#entityName}) > 0 from #{#entityName} e where :pName = :pVal")
+	@Query(name="select count (#{#entityName}) > 0 from #{#entityName} e where :pName = :pVal")
 	boolean isPropertyUnique(@Param("pName") String pName, @Param("pVal") Object pVal);
 	
 	@Query("select count (#{#entityName}) > 0 from #{#entityName} e where :pName = :pVal and e.id != :id")

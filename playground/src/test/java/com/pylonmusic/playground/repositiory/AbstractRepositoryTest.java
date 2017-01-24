@@ -1,12 +1,21 @@
 package com.pylonmusic.playground.repositiory;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringRunner;
 
 import com.pylonmusic.playground.domain.AbstractEntity;
 import com.pylonmusic.playground.repository.BaseRepository;
@@ -22,6 +31,10 @@ import com.pylonmusic.playground.repository.BaseRepository;
  * specific details, such as which entities and repositories to use etc.
  * 
  */
+@RunWith(SpringRunner.class)
+@DataJpaTest
+@SpringBootTest
+@TestPropertySource(locations="classpath:application_test.properties")
 public abstract class AbstractRepositoryTest<T extends AbstractEntity, G extends BaseRepository<T>> {
 
 	private static Logger log = Logger.getLogger(AbstractRepositoryTest.class.getName());
@@ -110,7 +123,8 @@ public abstract class AbstractRepositoryTest<T extends AbstractEntity, G extends
 		save(e1, e2);
 		
 		// e1 should have unique creation date
-		assertTrue("Creation date for entity 1 should be uniqe", getRepository().isNoOtherEntityWithProperty(e1.getId(), "creationDate", date1));
+		boolean noOtherEntityWithProperty = getRepository().isNoOtherEntityWithProperty(e1.getId(), "creationDate", date1);
+		assertTrue("Creation date for entity 1 should be uniqe", noOtherEntityWithProperty);
 		
 		// Now give e2 same date
 		e2.setCreationDate(date1);
