@@ -1,42 +1,26 @@
 package com.pylonmusic.playground.domain;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 
-@Entity
-@Table(name = "ADDRESS")
 public class Address extends AbstractEntity {
 	
 	private static final long serialVersionUID = 2582703777627336786L;
 
 	@NotBlank
-	@Column(name="STREET")
 	private String street;
 	
 	@NotBlank
-	@Column(name="CITY")
 	private String city;
 	
-	@Column(name="ZIPCODE")
 	private String zipCode;
 
-	@NotBlank
-	@Column(name="STATE_OR_REGION")
 	private String stateOrRegion;
 	
-	@Column(name="COUNTRY")
 	private String country;
 	
-	@OneToOne
-	@JoinColumn(name="PERSON_ID")
 	@JsonBackReference
 	private Person person;
 	

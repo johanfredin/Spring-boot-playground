@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" >
+<head>
+<meta charset="UTF-8" />
+<title>Playgound</title>
+</head>
+<body>
+
+	<h1>playground</h1>
+	
+	<!-- LOGIN -->
+	<h2>create person</h2>
+	
+	<form action="#" id="index" th:action="@{/index}" th:object="${person}" method="post">
+		<table>
+			<tr><td><input type="text" placeholder="firstname" th:field="*{firstName}"/></td></tr>
+			<tr><td><input type="text" placeholder="lastname" th:field="*{lastName}"/></td></tr>	
+			<tr><td><input type="text" placeholder="email" th:field="*{email}"/></td></tr>	
+			<tr><td><input type="text" placeholder="phone" th:field="*{phoneNr}"/></td></tr>	
+			<tr><td><input type="text" placeholder="street" th:field="*{address.street}"/></td></tr>
+			<tr><td><input type="text" placeholder="city" th:field="*{address.city}"/></td></tr>	
+					
+			<tr>
+				<td><button type="submit">submit</button></td>
+			</tr>
+		</table>
+	</form>	
+	
+
+</body>
+</html>

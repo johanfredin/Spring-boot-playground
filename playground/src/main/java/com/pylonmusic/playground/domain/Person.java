@@ -1,38 +1,24 @@
 package com.pylonmusic.playground.domain;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-@Entity
-@Table(name = "PERSON")
 public class Person extends AbstractEntity {
 	
 	private static final long serialVersionUID = 6757754030293161155L;
 
 	@NotBlank
 	@Email
-	@Column(name="EMAIL")
 	private String email;
 	
-	@Column(name="FIRST_NAME")
 	private String firstName;
 	
-	@Column(name="LAST_NAME")
 	private String lastName;
 	
-	@Column(name="PHONE_NR")
 	private String phoneNr;
 	
-	@OneToOne(cascade=CascadeType.ALL, mappedBy="person", fetch=FetchType.LAZY, orphanRemoval=true)
 	@JsonManagedReference
 	private Address address;
 	

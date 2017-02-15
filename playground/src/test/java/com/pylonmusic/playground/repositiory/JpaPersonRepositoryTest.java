@@ -1,7 +1,6 @@
 package com.pylonmusic.playground.repositiory;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.Assert.assertNotNull;
 
 import java.util.Arrays;
 import java.util.List;
@@ -9,7 +8,6 @@ import java.util.List;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
@@ -19,7 +17,6 @@ import com.pylonmusic.playground.domain.Person;
 import com.pylonmusic.playground.repository.PersonRepository;
 
 @RunWith(SpringRunner.class)
-@DataJpaTest
 @SpringBootTest
 @TestPropertySource(locations="classpath:application_test.properties")
 public class JpaPersonRepositoryTest extends AbstractRepositoryTest<Person, PersonRepository> {
@@ -30,24 +27,16 @@ public class JpaPersonRepositoryTest extends AbstractRepositoryTest<Person, Pers
 	@Test
 	public void testFindByLastName() {
 		Person p = getEntity1();
-		p.setRelations();
 		Person p2 = getEntity2();
 		
 		repo.save(Arrays.asList(p, p2));
 		
-		assertThat(p.getId()).isGreaterThan(0L);
+		assertThat(p.getId()).isNotNull();
 		
 		List<Person> lns = repo.findByLastName("Doe");
 		assertThat(lns).isNotNull().size().isGreaterThanOrEqualTo(1);
 	}
 	
-	@Test
-	public void testGetExistingEmails() {
-		List<Person> entities = persistEntities1And2();
-		List<String> existingEmails = this.repo.getExistingEmails("id", entities.get(0).getId());
-		assertNotNull(existingEmails);
-	}
-
 	@Override
 	protected PersonRepository getRepository() {
 		return this.repo;

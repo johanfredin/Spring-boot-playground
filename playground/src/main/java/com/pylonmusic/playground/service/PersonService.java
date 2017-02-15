@@ -1,19 +1,30 @@
 package com.pylonmusic.playground.service;
 
+import java.util.List;
+
+import com.pylonmusic.playground.domain.Person;
+import com.pylonmusic.playground.repository.PersonRepository;
+
 public interface PersonService {
 	
-//	List<Person> getAllPersons();
-//	
-//	List<Person> getAllPersonsWithLastNameLike(String firstName);
-//	
-//	List<String> getExistingEmails(Person person);
-//	
-//	List<String> getExistingPhoneNrs(Person person);
-//	
-//	boolean isUniqueEmail(Person person);
-//	
-//	boolean isUniquePhoneNr(Person person);
-//	
-//	Person getPersonWithChildren(long id);
+	default Person save(Person p) {
+		return getRepository().save(p);
+	}
+	
+	default void delete(Person p) {
+		getRepository().delete(p);
+	}
+	
+	default List<Person> findAll() {
+		return getRepository().findAll();
+	}
+	
+	default void deleteAll() {
+		getRepository().deleteAll();
+	}
+	
+	PersonRepository getRepository();
+	
+	void setRepositry(PersonRepository personRepository);
 	
 }

@@ -1,49 +1,25 @@
 package com.pylonmusic.playground.service;
 
-import javax.transaction.Transactional;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.pylonmusic.playground.repository.PersonRepository;
+
 @Component("personService")
-@Transactional
 public class PersonServiceImpl implements PersonService {
 
-//	private PersonRepository personRepository;
-//	
-//	@Override
-//	public List<Person> getAllPersons() {
-//		return this.personRepository.findAll();
-//	}
-//
-//	@Override
-//	public List<Person> getAllPersonsWithLastNameLike(String firstName) {
-//		return this.personRepository.findByLastName(firstName);
-//	}
-//
-//
-//	@Override
-//	public List<String> getExistingEmails(Person person) {
-//		return null;
-//	}
-//
-//	@Override
-//	public List<String> getExistingPhoneNrs(Person person) {
-//		return null;
-//	}
-//
-//	@Override
-//	public boolean isUniqueEmail(Person person) {
-//		return false;
-//	}
-//
-//	@Override
-//	public boolean isUniquePhoneNr(Person person) {
-//		return false;
-//	}
-//
-//	@Override
-//	public Person getPersonWithChildren(long id) {
-//		return this.personRepository.getPersonWithChildren(id);
-//	}
+	@Autowired
+	private PersonRepository personRepository;
+	
+	@Override
+	public PersonRepository getRepository() {
+		return personRepository;
+	}
+
+	@Override
+	public void setRepositry(PersonRepository personRepository) {
+		this.personRepository = personRepository;
+	}
+
 
 }

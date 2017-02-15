@@ -2,21 +2,12 @@ package com.pylonmusic.playground.domain;
 
 import java.io.Serializable;
 
-import javax.persistence.Access;
-import javax.persistence.AccessType;
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.MappedSuperclass;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
+import org.springframework.data.annotation.Id;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -26,7 +17,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @author johan
  *
  */
-@MappedSuperclass
 public abstract class AbstractEntity implements Serializable {
 
 	/**
@@ -35,21 +25,14 @@ public abstract class AbstractEntity implements Serializable {
 	private static final long serialVersionUID = -6256322936983908489L;
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Access(AccessType.FIELD)
-	@Column(name="ENTITY_ID")
-	protected long id;
+	protected String id;
 	
 	@Length(max=Constants.LENGTH_SHORT_FIELD)
 	@Pattern(regexp = Constants.REGEX_DATE_TIME_PATTERN)
-	@Access(AccessType.FIELD)
-	@Column(name="CREATION_DATE", length=Constants.LENGTH_SHORT_FIELD)
 	protected String creationDate;
 	
 	@Length(max=Constants.LENGTH_SHORT_FIELD)
 	@Pattern(regexp = Constants.REGEX_DATE_TIME_PATTERN)
-	@Access(AccessType.FIELD)
-	@Column(name="LAST_UPDATE", length=Constants.LENGTH_SHORT_FIELD)
 	protected String lastChangeDate;
 	
 	protected static final char NEW_LINE = '\n';
@@ -63,17 +46,12 @@ public abstract class AbstractEntity implements Serializable {
 		this.creationDate = this.lastChangeDate = getNewDate();
 	}
 	
-	/** 
-	 * Set the id of the entity
-	 * @param id
-	 */
-	public void setId(long id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	
-	
-	public long getId() {
-		return this.id;
+	public String getId() {
+		return id;
 	}
 	
 	/**
@@ -141,8 +119,8 @@ public abstract class AbstractEntity implements Serializable {
 	 * @return <code>true</code> if passed in id > 0
 	 */
 	@JsonIgnore
-	public boolean isExistingEntity(long id) {
-		return id > 0;
+	public boolean isExistingEntity(String id) {
+		return id != null;
 	}
 	
 	/** @return the date when the last change occurred formatted as "yyyy-MM-dd HH:mm:ss" */
@@ -185,19 +163,25 @@ public abstract class AbstractEntity implements Serializable {
 	@Override
 	public String toString() {
 		return new StringBuilder().
-			append(this.getClass().getSimpleName().toUpperCase()).append("_ID=").append(getId()).append(NEW_LINE).
 			append("Creation Date=").append(getCreationDate()).append(NEW_LINE).
 			append("Last Change Date=").append(getLastChangeDate()).
 		toString();
 	}
-	
-	
 	
 	/**
 	 * @return A new date with format "yyyy-MM-dd HH:mm:ss" 
 	 */
 	private String getNewDate() {
 		return new DateTime().toString(DateTimeFormat.forPattern("yyy-MM-dd HH:mm:ss"));
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj instanceof AbstractEntity || (this.getClass() == obj.getClass())) {
+			return getId().equals(((Person) obj).getId());
+		}
+		
+		return super.equals(obj);
 	}
 	
 
