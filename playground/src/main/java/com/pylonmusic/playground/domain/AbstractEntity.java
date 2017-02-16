@@ -19,9 +19,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 public abstract class AbstractEntity implements Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -6256322936983908489L;
 
 	@Id
@@ -177,11 +174,23 @@ public abstract class AbstractEntity implements Serializable {
 	
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof AbstractEntity || (this.getClass() == obj.getClass())) {
-			return getId().equals(((Person) obj).getId());
+		if(this == obj) {
+			return true;
 		}
 		
-		return super.equals(obj);
+		if(this.id == null || obj == null || !(this.getClass().equals(obj.getClass()))) {
+			return false;
+		}
+		
+		
+		AbstractEntity that = (AbstractEntity) obj;
+		
+		return this.id.equals(that.getId());
+	}
+	
+	@Override
+	public int hashCode() {
+		return this.id == null ? 0 : id.hashCode();
 	}
 	
 

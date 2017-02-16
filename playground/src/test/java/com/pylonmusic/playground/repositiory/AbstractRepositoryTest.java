@@ -88,10 +88,16 @@ public abstract class AbstractRepositoryTest<T extends AbstractEntity, G extends
 		String id = getRepository().save(getEntity1()).getId();
 		T entity = getRepository().findOne(id);
 
+		assertEquals(1, getRepository().findAll().size());
+		entity.setCreationDate("2015-09-25:08:25:24");
+		
 		// This doesn´t test much, but is still some control that no exception
 		// is thrown.
 		getRepository().save(entity);
 
+		T dbEntity = getRepository().findOne(entity.getId());
+		assertEquals("2015-09-25:08:25:24", dbEntity.getCreationDate());
+		assertEquals(1, getRepository().findAll().size());
 	}
 	
 	
