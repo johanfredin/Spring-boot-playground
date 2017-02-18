@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Logger;
 
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -100,6 +101,10 @@ public abstract class AbstractRepositoryTest<T extends AbstractEntity, G extends
 		assertEquals(1, getRepository().findAll().size());
 	}
 	
+	@After
+	public void clear() {
+		getRepository().deleteAll();
+	}
 	
 	protected List<T> persistEntities1And2() {
 		return save(getEntity1(), getEntity2());

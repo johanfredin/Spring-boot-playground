@@ -2,9 +2,11 @@ package com.pylonmusic.playground.domain;
 
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+@Document
 public class Person extends AbstractEntity {
 	
 	private static final long serialVersionUID = 6757754030293161155L;
